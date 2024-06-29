@@ -16,7 +16,7 @@
 
 ### Запуск автотестов
 > `$ pytest tests`
-> `$ pytest tests.py --alluredir=allure_results `
+> `$ pytest tests --alluredir=allure_results `
 
 **Установка зависимостей**
 

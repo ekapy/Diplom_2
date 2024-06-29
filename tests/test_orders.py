@@ -10,9 +10,9 @@ class TestCreateOrder:
         assert response.status_code == 200 and response.json()["success"] is True and "number" in response.text
 
     @allure.title('Создание заказа с авторизацией')
-    def test_create_order_with_auth(self, get_token):
-        token = get_token
-        response = requests.post(Url.CREATE_ORDER, headers={'Authorization': token}, data=Ingredients.true_ingredients)
+    def test_create_order_with_auth(self, user_registration):
+        response = requests.post(Url.CREATE_ORDER, headers={'Authorization': user_registration[1]},
+                                 data=Ingredients.true_ingredients)
         assert response.status_code == 200 and response.json()["success"] is True
         assert "ingredients", "owner" in response.text
 
@@ -28,9 +28,8 @@ class TestCreateOrder:
         assert response.status_code == 400 and response.json() == expected_response
 
     @allure.title("Получение заказов авторизованным юзером")
-    def test_get_order_auth_user(self, get_token):
-        token = get_token()
-        response = requests.get(Url.GET_ORDERS, headers={'Authorization': token})
+    def test_get_order_auth_user(self, user_registration):
+        response = requests.get(Url.GET_ORDERS, headers={'Authorization': user_registration[1]})
         assert response.status_code == 200  and response.json()["success"] is True
         assert "orders" in response.text
 
